@@ -1,6 +1,7 @@
 package com.jd.poporder.aspect;
 
 import com.jd.poporder.annotation.PopOrderFlowResource;
+import com.jd.poporder.utils.EntryType;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,6 +32,8 @@ public class PopOrderFlowAspect extends AbstractPopOrderAnnotationAspect{
             throw new IllegalStateException("Wrong state for PopOrderFlowAnnotation annotation!");
         }else {
             String resourceName = popOrderFlowResource.value();
+            EntryType entryType = popOrderFlowResource.entryType();
+            int resourceType = popOrderFlowResource.resourceType();
             try {
                 // TODO 限流逻辑
                 pjp.proceed();
