@@ -1,4 +1,4 @@
-package com.jd.poporder.core;
+package com.jd.poporder.service;
 
 /**
  * @ClassName ControlNode

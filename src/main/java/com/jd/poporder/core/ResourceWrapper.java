@@ -14,7 +14,7 @@ public abstract class ResourceWrapper {
     private final EntryType entryType;
     private final int resourceType;
 
-    protected ResourceWrapper(String name, EntryType entryType, int resourceType) {
+    public ResourceWrapper(String name, EntryType entryType, int resourceType) {
         this.name = name;
         this.entryType = entryType;
         this.resourceType = resourceType;
@@ -30,5 +30,10 @@ public abstract class ResourceWrapper {
 
     public int getResourceType() {
         return resourceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
     }
 }

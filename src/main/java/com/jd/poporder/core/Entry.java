@@ -1,5 +1,7 @@
 package com.jd.poporder.core;
 
+import com.jd.poporder.service.ResourceNode;
+
 /**
  * @ClassName Entry
  * @Description Entry
