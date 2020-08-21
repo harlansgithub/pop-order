@@ -14,6 +14,6 @@ public class Environment {
     public static final PopResourceService service = new PopResourceFlowAction();
 
     static {
-
+        InitExecutor.init();
     }
 }
