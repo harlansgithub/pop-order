@@ -1,7 +1,6 @@
 package com.jd.poporder.service.impl;
 
 import com.jd.poporder.core.Entry;
-import com.jd.poporder.core.ResourceWrapper;
 import com.jd.poporder.core.StringResourceWrapper;
 import com.jd.poporder.service.PopResourceService;
 import com.jd.poporder.utils.EntryType;

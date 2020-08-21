@@ -1,5 +1,8 @@
 package com.jd.poporder.core;
 
+import com.jd.poporder.service.PopResourceService;
+import com.jd.poporder.service.impl.PopResourceFlowAction;
+
 /**
  * @ClassName Environment
  * @Description Environment
@@ -8,5 +11,9 @@ package com.jd.poporder.core;
  * @Version 1.0
  */
 public class Environment {
+    public static final PopResourceService service = new PopResourceFlowAction();
 
+    static {
+
+    }
 }
