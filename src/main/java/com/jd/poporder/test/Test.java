@@ -4,7 +4,6 @@ import com.alibaba.csp.sentinel.init.InitOrder;
 import com.alibaba.csp.sentinel.slots.statistic.MetricEvent;
 
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicLongArray;
 @InitOrder(3)
 public class Test {
     public static void main(String[] args) {

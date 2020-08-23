@@ -11,8 +11,9 @@ import com.jd.poporder.service.impl.PopResourceFlowAction;
  * @Version 1.0
  */
 public class Environment {
-    public static PopResourceService popResourceService = new PopResourceFlowAction();
-    static {
+    public static final PopResourceService service = new PopResourceFlowAction();
 
+    static {
+        InitExecutor.init();
     }
 }
