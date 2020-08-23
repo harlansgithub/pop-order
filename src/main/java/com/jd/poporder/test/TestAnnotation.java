@@ -14,6 +14,13 @@ import org.springframework.stereotype.Component;
 public class TestAnnotation {
     @PopOrderFlowResource("test_aspect")
     public String testAspect() {
-        return "my aspect is test aspect";
+//        return "my aspect is test aspect";
+        System.out.println(this.getClass().isAnnotationPresent(PopOrderFlowResource.class));
+        return null;
+    }
+
+    public static void main(String[] args) {
+        TestAnnotation testAnnotation = new TestAnnotation();
+        testAnnotation.testAspect();
     }
 }
