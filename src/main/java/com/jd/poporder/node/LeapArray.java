@@ -1,5 +1,8 @@
 package com.jd.poporder.node;
 
+import com.jd.poporder.core.MetricBucket;
+
+import java.awt.*;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
@@ -24,7 +27,20 @@ public abstract class LeapArray<T> {
         array = new AtomicReferenceArray<WindowWrap<T>>(sampleCount);
     }
 
-    public WindowWrap<T> currentWindow(long timestamp){
+    public WindowWrap<T> currentWindow(long timeInMillis){
+        // 计算在LeapArray中的位置
+        int count = (int) (timeInMillis / windowLengthInMs);
+        int indexId = count % sampleCount;
+
+        // 读取对应的时间Bucket
+        WindowWrap old = array.get(indexId);
+
+        // 计算当前时间的Bucket的开始时间
+        long windowStart = timeInMillis - timeInMillis % windowLengthInMs;
+
+        if (old == null){
+            return new WindowWrap<T>(windowLengthInMs,windowStart,null);
+        }
         return null;
     }
 }
