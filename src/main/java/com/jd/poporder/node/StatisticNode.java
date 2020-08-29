@@ -4,9 +4,12 @@ import com.jd.poporder.service.Predicate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class StatisticNode implements Node
-{
+/**
+ * 数据统计核心计算逻辑，使用滑动时间窗口计数
+ */
+public class StatisticNode implements Node {
     @Override
     public long totalRequest() {
         return 0;

@@ -1,4 +1,4 @@
 package com.jd.poporder.node;
 
-public class DefaultNode {
+public class DefaultNode extends StatisticNode {
 }
