@@ -1,5 +1,7 @@
 package com.jd.poporder.node;
 
+import com.jd.poporder.core.ResourceWrapper;
+
 /**
  * @ClassName EntranceNode
  * @Description EntranceNode
@@ -8,5 +10,7 @@ package com.jd.poporder.node;
  * @Version 1.0
  */
 public class EntranceNode extends DefaultNode{
-
+    public EntranceNode(ResourceWrapper id) {
+        super(id);
+    }
 }

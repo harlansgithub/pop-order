@@ -15,6 +15,7 @@ public abstract class Entry implements AutoCloseable{
     private ResourceNode curNode;
     private ResourceNode originNode;
     private Throwable error;
+
     @Override
     public void close() throws Exception {
 

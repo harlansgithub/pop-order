@@ -1,5 +1,7 @@
 package com.jd.poporder.context;
 
+import com.jd.poporder.node.DefaultNode;
+
 /**
  * @ClassName NullContext
  * @Description NullContext
@@ -8,4 +10,7 @@ package com.jd.poporder.context;
  * @Version 1.0
  */
 public class NullContext extends Context{
+    public NullContext(DefaultNode defaultNode, String name) {
+        super(null, "null_context_name");
+    }
 }
