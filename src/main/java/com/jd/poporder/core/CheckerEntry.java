@@ -3,6 +3,8 @@ package com.jd.poporder.core;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.slots.ProcessorSlot;
 
+import javax.annotation.Resource;
+
 /**
  * @ClassName CheckerEntry
  * @Description CheckerEntry
@@ -16,7 +18,8 @@ public class CheckerEntry extends Entry {
     protected ProcessorSlot<Object> chain;
     protected Context context;
 
-    public CheckerEntry(ProcessorSlot<Object> chain, Context context) {
+    public CheckerEntry(ResourceWrapper resourceWrapper, ProcessorSlot<Object> chain, Context context) {
+        super(resourceWrapper);
         this.chain = chain;
         this.context = context;
     }
