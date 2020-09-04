@@ -37,7 +37,6 @@ public class PopFlowRuleChecker {
         if (node == null) {
             return true;
         }
-
-        return rule.getRater().canPass(node, acquireCount, prioritized);
+        return rule.getRater().canPass(context.getEntranceNode(), acquireCount, prioritized);
     }
 }

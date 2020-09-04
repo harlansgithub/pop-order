@@ -18,16 +18,16 @@ public abstract class LeapArray<T> {
     // 时间窗口的间隔
     protected int intervalInMs;
 
-    protected final AtomicReferenceArray<WindowWrap<T>> array;
+    protected final AtomicReferenceArray<WindowWrap<MetricBucket>> array;
 
     public LeapArray(int sampleCount, int intervalInMs){
         this.sampleCount = sampleCount;
         this.intervalInMs = intervalInMs;
         this.windowLengthInMs = intervalInMs / sampleCount;
-        array = new AtomicReferenceArray<WindowWrap<T>>(sampleCount);
+        array = new AtomicReferenceArray<WindowWrap<MetricBucket>>(sampleCount);
     }
 
-    public WindowWrap<T> currentWindow(long timeInMillis){
+    public WindowWrap<MetricBucket> currentWindow(long timeInMillis){
         // 计算在LeapArray中的位置
         int count = (int) (timeInMillis / windowLengthInMs);
         int indexId = count % sampleCount;
@@ -38,9 +38,21 @@ public abstract class LeapArray<T> {
         // 计算当前时间的Bucket的开始时间
         long windowStart = timeInMillis - timeInMillis % windowLengthInMs;
 
+        WindowWrap<MetricBucket> newWindow = new WindowWrap<MetricBucket>(windowLengthInMs,windowStart,new MetricBucket());
+        // 初始化或者数据被清空
         if (old == null){
-            return new WindowWrap<T>(windowLengthInMs,windowStart,null);
+            if (array.compareAndSet(indexId,null,newWindow)){
+                return newWindow;
+            }else {
+                Thread.yield();
+            }
         }
+        // 当前窗口数据失效，更新窗口开始时间
+        if (windowStart > old.windowStart()){
+           new WindowWrap<T>(windowLengthInMs,windowStart, null);
+        }
+
+
         return null;
     }
 }

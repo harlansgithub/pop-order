@@ -16,6 +16,5 @@ public class MetricBucket {
         for (MetricEvent event:metricEvents){
             counters[event.ordinal()] = new LongAdder();
         }
-
     }
 }
