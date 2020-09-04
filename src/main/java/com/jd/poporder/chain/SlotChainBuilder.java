@@ -1,5 +1,7 @@
 package com.jd.poporder.chain;
 
+
+
 /**
  * @ClassName SlotChainBuilder
  * @Description SlotChainBuilder
@@ -8,4 +10,5 @@ package com.jd.poporder.chain;
  * @Version 1.0
  */
 public interface SlotChainBuilder {
+    ProcessorSlotChain build();
 }

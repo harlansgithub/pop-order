@@ -47,7 +47,7 @@ public class PopResourceFlowAction implements PopResourceService {
         return null;
     }
 
-    public Entry entryWithPriority(ResourceWrapper resourceWrapper, int count, boolean prioritized, Object[] objects){
+    public Entry entryWithPriority(ResourceWrapper resourceWrapper, int count, boolean prioritized, Object[] objects) throws Throwable {
         Context context = ContextUtil.getContext();
         // 上下文的个数超过了最大数量2000,返回一个没有校验规则的entry
         if (context instanceof NullContext){
@@ -57,7 +57,10 @@ public class PopResourceFlowAction implements PopResourceService {
         if (context == null){
             context = InternalContextUtils.internalEnter(ContextNameConstants.DEFAULT_CONTEXT_NAME);
         }
-        return null;
+        ProcessorSlot<Object> chain = lookProcessorChain(resourceWrapper);
+        Entry e = new CheckerEntry(resourceWrapper, chain, context);
+        chain.entry(context, resourceWrapper, null, count, false, objects);
+        return e;
     }
 
     private static final class InternalContextUtils extends ContextUtil {
