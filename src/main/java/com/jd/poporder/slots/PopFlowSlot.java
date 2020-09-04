@@ -15,6 +15,9 @@ import java.util.function.Function;
 public class PopFlowSlot extends AbstractLinkedProcessorSlot<DefaultNode>{
     private PopFlowRuleChecker checker;
 
+    public PopFlowSlot() {
+    }
+
     public PopFlowSlot(PopFlowRuleChecker checker) {
         this.checker = checker;
     }
@@ -29,18 +32,15 @@ public class PopFlowSlot extends AbstractLinkedProcessorSlot<DefaultNode>{
 
     }
 
-    void checkFlow(ResourceWrapper resource, Context context, DefaultNode node, int count, boolean prioritized) {
+    void checkFlow(ResourceWrapper resource, Context context, DefaultNode node, int count, boolean prioritized) throws Exception {
         checker.checkFlow(ruleProvider, resource, context, node, count, prioritized);
     }
 
     private final Function<String, Collection<PopFlowRule>> ruleProvider = new Function<String, Collection<PopFlowRule>>() {
         @Override
         public Collection<PopFlowRule> apply(String resource) {
-            // Flow rule map should not be null.
-//            Map<String, List<PopFlowRule>> flowRules = PopFlowRuleManager.getFlowRuleMap();
+            Map<String, List<PopFlowRule>> flowRules = PopFlowRuleManager.getFlowRuleMap();
             return flowRules.get(resource);
         }
     };
-
-
 }

@@ -1,10 +1,13 @@
 package com.jd.poporder.slots;
 
-public class DefaultSlotChainBuilder implements SlotChainBuilder{
+import com.jd.poporder.chain.ProcessorSlotChain;
+import com.jd.poporder.chain.SlotChainBuilder;
+
+public class DefaultSlotChainBuilder implements SlotChainBuilder {
     @Override
     public ProcessorSlotChain build() {
         ProcessorSlotChain chain = new DefaultProcessorSlotChain();
         chain.addLast(new PopFlowSlot());
-        return null;
+        return chain;
     }
 }

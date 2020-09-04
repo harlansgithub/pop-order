@@ -14,12 +14,13 @@ import java.util.Set;
  * @Version 1.0
  */
 public class PopDynamicProperty<T> implements Property<T>{
+    // TODO Collections.synchronizedSet ???
     protected Set<PopPropertyListener<T>> listeners = Collections.synchronizedSet(new HashSet<PopPropertyListener<T>>());
     private T value = null;
 
     public PopDynamicProperty() {
     }
-
+    // TODO 为什么要加super()
     public PopDynamicProperty(T value) {
         super();
         this.value = value;

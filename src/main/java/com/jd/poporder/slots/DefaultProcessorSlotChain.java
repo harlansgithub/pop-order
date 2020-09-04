@@ -1,12 +1,11 @@
 package com.jd.poporder.slots;
 
+import com.jd.poporder.chain.ProcessorSlotChain;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.core.ResourceWrapper;
 
-public class DefaultProcessorSlotChain extends ProcessorSlotChain{
+public class DefaultProcessorSlotChain extends ProcessorSlotChain {
     AbstractLinkedProcessorSlot<?> first = new AbstractLinkedProcessorSlot<Object>() {
-
-
         @Override
         public void entry(Context context, ResourceWrapper resourceWrapper, Object param, int count, boolean prioritized, Object... args) throws Throwable {
             super.fireEntry(context, resourceWrapper, param, count, prioritized, args);

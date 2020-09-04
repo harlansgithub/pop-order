@@ -1,5 +1,7 @@
 package com.jd.poporder.service.impl;
 
+import com.jd.poporder.chain.ProcessorSlotChain;
+import com.jd.poporder.chain.SlotChainProvider;
 import com.jd.poporder.constants.Constans;
 import com.jd.poporder.constants.ContextNameConstants;
 import com.jd.poporder.context.Context;
@@ -12,19 +14,16 @@ import com.jd.poporder.service.PopResourceService;
 import com.jd.poporder.slots.ProcessorSlot;
 import com.jd.poporder.utils.ContextUtil;
 import com.jd.poporder.utils.EntryType;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class PopResourceFlowAction implements PopResourceService {
-    private static volatile Map<ResourceWrapper, ProcessorSlot> locCacheChainMap = new HashMap<>();
+    private static volatile Map<ResourceWrapper, ProcessorSlotChain> locCacheChainMap = new HashMap<>();
     private static final Object LOCK = new Object();
     @Override
-    public Entry entry(String name, EntryType entryType, int count, Object... args) {
-
-        return null;
+    public Entry entry(String name,int resourceType, EntryType entryType, int count, Object... args) throws Throwable {
+        return entryWithType(name, resourceType, entryType, count, args);
     }
 
     /**
@@ -37,14 +36,13 @@ public class PopResourceFlowAction implements PopResourceService {
      * @return
      */
     @Override
-    public Entry entryWithType(String name, int resourceType, EntryType entryType, int count, Object[] objects) {
+    public Entry entryWithType(String name, int resourceType, EntryType entryType, int count, Object[] objects) throws Throwable {
         return entryWithType( name, resourceType, entryType, count, false, objects);
     }
 
-    public Entry entryWithType(String name, int resourceType, EntryType entryType, int count, boolean proritized, Object[] objects){
+    public Entry entryWithType(String name, int resourceType, EntryType entryType, int count, boolean proritized, Object[] objects) throws Throwable {
         StringResourceWrapper stringResourceWrapper = new StringResourceWrapper(name,entryType,resourceType);
-        entryWithPriority(stringResourceWrapper,count,false,objects);
-        return null;
+        return entryWithPriority(stringResourceWrapper,count,false,objects);
     }
 
     public Entry entryWithPriority(ResourceWrapper resourceWrapper, int count, boolean prioritized, Object[] objects) throws Throwable {
@@ -70,7 +68,7 @@ public class PopResourceFlowAction implements PopResourceService {
     }
 
     ProcessorSlot<Object> lookProcessorChain(ResourceWrapper resourceWrapper){
-        ProcessorSlot<Object> chain = locCacheChainMap.get(resourceWrapper);
+        ProcessorSlotChain chain = locCacheChainMap.get(resourceWrapper);
         if (chain == null){
             synchronized (LOCK){
                 // DOUBLE CHECK
@@ -79,9 +77,14 @@ public class PopResourceFlowAction implements PopResourceService {
                     if (locCacheChainMap.size() >= Constans.MAX_SLOT_SIZE){
                         return null;
                     }
+                    chain = SlotChainProvider.newSlotChain();
+                    Map<ResourceWrapper, ProcessorSlotChain> newMap = new HashMap<>(locCacheChainMap.size() + 1);
+                    newMap.putAll(locCacheChainMap);
+                    newMap.put(resourceWrapper, chain);
+                    locCacheChainMap = newMap;
                 }
             }
         }
-        return null;
+        return chain;
     }
 }

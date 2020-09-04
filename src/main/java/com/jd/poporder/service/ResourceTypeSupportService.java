@@ -13,5 +13,5 @@ public interface ResourceTypeSupportService {
      * @param objects 拓展参数，我想应该是应对加字段的场景
      * @return
      */
-    Entry entryWithType(String name, int resourceType , EntryType entryType , int count ,Object[] objects);
+    Entry entryWithType(String name, int resourceType , EntryType entryType , int count ,Object[] objects) throws Throwable;
 }

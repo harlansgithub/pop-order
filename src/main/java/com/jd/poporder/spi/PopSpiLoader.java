@@ -1,6 +1,5 @@
 package com.jd.poporder.spi;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class PopSpiLoader {
     private static final Map<String, ServiceLoader> SERVICE_LOADER_MAP = new ConcurrentHashMap<>();
-    public static <T> T loadFirstInstanceOrDefault(Class<T> clazz, Class<? extends T> defaultClazz){
+    public static <T> T  loadFirstInstanceOrDefault(Class<T> clazz, Class<? extends T> defaultClazz){
         try {
             String className = clazz.getName();
             ServiceLoader<T> serviceLoader = SERVICE_LOADER_MAP.get(className);

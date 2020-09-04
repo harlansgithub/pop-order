@@ -1,6 +1,8 @@
 package com.jd.poporder.slots;
 
 
+import com.jd.poporder.chain.ProcessorSlotChain;
+import com.jd.poporder.chain.SlotChainBuilder;
 import com.jd.poporder.spi.PopSpiLoader;
 
 public class SlotChainProvider {
