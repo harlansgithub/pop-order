@@ -2,7 +2,6 @@ package com.jd.poporder.node;
 
 import com.jd.poporder.core.MetricBucket;
 
-import java.awt.*;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -28,6 +27,11 @@ public abstract class LeapArray<T> {
         array = new AtomicReferenceArray<WindowWrap<MetricBucket>>(sampleCount);
     }
 
+    /**
+     * 根据当前时间或者所处的时间窗口
+     * @param timeInMillis
+     * @return
+     */
     public WindowWrap<MetricBucket> currentWindow(long timeInMillis){
         // 计算在LeapArray中的位置
         int count = (int) (timeInMillis / windowLengthInMs);
@@ -60,4 +64,19 @@ public abstract class LeapArray<T> {
 
         return null;
     }
+
+    /**
+     * 创建一个空的bucket
+     * @param timeMillis
+     * @return
+     */
+    public abstract T newEmptyBucket(long timeMillis);
+
+    /**
+     * 重置window的starttime 和 value
+     * @param windowWrap
+     * @param startTime
+     * @return
+     */
+    protected abstract WindowWrap<T> resetWindowTo(WindowWrap<T> windowWrap, long startTime);
 }
