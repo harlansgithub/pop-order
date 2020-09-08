@@ -4,10 +4,10 @@ import com.jd.poporder.core.MetricBucket;
 
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 数据统计基础数据结构，一个LeapArray横跨一个时间间隔，在这个时间间隔中，又会被分割成若干个Bucket
- * 被分割的越多，统计的数据就会越准确
  * sampleCount =  intervalInMs / windowLengthInMs
  */
 public abstract class LeapArray<T> {
@@ -19,6 +19,7 @@ public abstract class LeapArray<T> {
     protected int intervalInMs;
 
     protected final AtomicReferenceArray<WindowWrap<MetricBucket>> array;
+    private ReentrantLock updatLock = new ReentrantLock(false);
 
     public LeapArray(int sampleCount, int intervalInMs){
         this.sampleCount = sampleCount;
@@ -49,7 +50,11 @@ public abstract class LeapArray<T> {
         }
         // 当前窗口数据失效，更新窗口开始时间
         if (windowStart > old.windowStart()){
-           new WindowWrap<T>(windowLengthInMs,windowStart, null);
+            if (updatLock.tryLock()){
+                WindowWrap<MetricBucket> windowWrap = new WindowWrap<>(windowLengthInMs, windowStart, new MetricBucket());
+                old = windowWrap;
+                return windowWrap;
+            }
         }
 
 
