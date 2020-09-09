@@ -7,4 +7,8 @@ public class DefaultNode extends StatisticNode {
     public DefaultNode(ResourceWrapper id) {
         this.id = id;
     }
+    @Override
+    public void increaseBlockQps(int count) {
+        super.increaseBlockQps(count);
+    }
 }

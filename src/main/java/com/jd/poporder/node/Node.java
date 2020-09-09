@@ -18,6 +18,7 @@ public interface Node extends OccupySupport{
     double totalQps();
     double successQps();
     double maxSuccessQps();
+    void increaseBlockQps(int count);
     double exceptionQps();
     // 每秒中的平均响应时间
     double avgRt();

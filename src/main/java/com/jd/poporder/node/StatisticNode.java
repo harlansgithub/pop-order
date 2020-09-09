@@ -1,15 +1,27 @@
 package com.jd.poporder.node;
 
+import com.jd.poporder.property.IntervalProperty;
+import com.jd.poporder.property.SampleCountProperty;
+import com.jd.poporder.service.Metric;
 import com.jd.poporder.service.Predicate;
+import com.jd.poporder.service.impl.ArrayMetric;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 数据统计核心计算逻辑，使用滑动时间窗口计数
  */
 public class StatisticNode implements Node {
+    /**
+     * 每秒请求计数器，每500ms一个时间窗口
+     */
+    private transient volatile Metric rollingCounterInSecond = new ArrayMetric(SampleCountProperty.SAMPLE_COUNT,
+            IntervalProperty.INTERVAL);
+    /**
+     * 一分钟计数,每秒一个时间窗口
+     */
+    private transient Metric rollingCounterInMinute = new ArrayMetric(60, 60 * 1000, false);
     @Override
     public long totalRequest() {
         return 0;
@@ -58,6 +70,10 @@ public class StatisticNode implements Node {
     @Override
     public double maxSuccessQps() {
         return 0;
+    }
+
+    @Override
+    public void increaseBlockQps(int count) {
     }
 
     @Override
