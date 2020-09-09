@@ -1,13 +1,12 @@
 package com.jd.poporder.service.impl;
 
-
 import com.jd.poporder.core.MetricBucket;
 import com.jd.poporder.node.LeapArray;
 import com.jd.poporder.node.WindowWrap;
 
-public class FutureBucketLeapArray extends LeapArray<MetricBucket> {
-    public FutureBucketLeapArray(int sampleCount, int intervalInMs) {
-        // This class is the original "BorrowBucketArray".
+public class BucketLeapArray extends LeapArray<MetricBucket> {
+
+    public BucketLeapArray(int sampleCount, int intervalInMs) {
         super(sampleCount, intervalInMs);
     }
 
@@ -18,15 +17,8 @@ public class FutureBucketLeapArray extends LeapArray<MetricBucket> {
 
     @Override
     protected WindowWrap<MetricBucket> resetWindowTo(WindowWrap<MetricBucket> w, long startTime) {
-        // Update the start time and reset value.
         w.resetTo(startTime);
         w.value().reset();
         return w;
     }
-
-//    @Override
-//    public boolean isWindowDeprecated(long time, WindowWrap<MetricBucket> windowWrap) {
-//        // Tricky: will only calculate for future.
-//        return time >= windowWrap.windowStart();
-//    }
 }

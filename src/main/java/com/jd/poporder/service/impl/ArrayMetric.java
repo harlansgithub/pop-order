@@ -1,6 +1,5 @@
 package com.jd.poporder.service.impl;
 
-import com.alibaba.csp.sentinel.slots.statistic.metric.occupy.OccupiableBucketLeapArray;
 import com.jd.poporder.core.MetricBucket;
 import com.jd.poporder.node.LeapArray;
 import com.jd.poporder.service.Metric;

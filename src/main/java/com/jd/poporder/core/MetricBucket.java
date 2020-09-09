@@ -17,4 +17,21 @@ public class MetricBucket {
             counters[event.ordinal()] = new LongAdder();
         }
     }
+
+    public MetricBucket reset(){
+        for (MetricEvent event:MetricEvent.values()){
+            counters[event.ordinal()].reset();
+        }
+        return this;
+    }
+    public MetricBucket reset(MetricBucket bucket) {
+        for (MetricEvent event : MetricEvent.values()) {
+            counters[event.ordinal()].reset();
+            counters[event.ordinal()].add(bucket.get(event));
+        }
+        return this;
+    }
+    public long get(MetricEvent event) {
+        return counters[event.ordinal()].sum();
+    }
 }

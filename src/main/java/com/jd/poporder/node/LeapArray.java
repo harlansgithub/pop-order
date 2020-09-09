@@ -34,8 +34,7 @@ public abstract class LeapArray<T> {
      */
     public WindowWrap<MetricBucket> currentWindow(long timeInMillis){
         // 计算在LeapArray中的位置
-        int count = (int) (timeInMillis / windowLengthInMs);
-        int indexId = count % sampleCount;
+        int indexId = calculateTimeIdx(timeInMillis);
 
         // 读取对应的时间Bucket
         WindowWrap old = array.get(indexId);
@@ -65,6 +64,25 @@ public abstract class LeapArray<T> {
         return null;
     }
 
+    private int calculateTimeIdx(long timeInMillis) {
+        int count = (int) (timeInMillis / windowLengthInMs);
+        return count % sampleCount;
+    }
+
+    public MetricBucket getWindowValue(long timeMillis) {
+        if (timeMillis < 0) {
+            return null;
+        }
+        int idx = calculateTimeIdx(timeMillis);
+
+        WindowWrap<MetricBucket> bucket = array.get(idx);
+
+        if (bucket == null || !bucket.isTimeInWondow(timeMillis)) {
+            return null;
+        }
+
+        return bucket.value();
+    }
     /**
      * 创建一个空的bucket
      * @param timeMillis
