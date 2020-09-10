@@ -24,12 +24,12 @@ public class StatisticNode implements Node {
     private transient Metric rollingCounterInMinute = new ArrayMetric(60, 60 * 1000, false);
     @Override
     public long totalRequest() {
-        return 0;
+        return rollingCounterInMinute.pass() + rollingCounterInMinute.block();
     }
 
     @Override
     public long totalPass() {
-        return 0;
+        return rollingCounterInMinute.pass();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class StatisticNode implements Node {
 
     @Override
     public double totalQps() {
-        return 0;
+        return passQps() + blockQps();
     }
 
     @Override

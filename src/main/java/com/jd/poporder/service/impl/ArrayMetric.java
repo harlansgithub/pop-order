@@ -2,7 +2,10 @@ package com.jd.poporder.service.impl;
 
 import com.jd.poporder.core.MetricBucket;
 import com.jd.poporder.node.LeapArray;
+import com.jd.poporder.node.WindowWrap;
 import com.jd.poporder.service.Metric;
+
+import java.util.List;
 
 public class ArrayMetric implements Metric {
     private final LeapArray<MetricBucket> data;
@@ -39,7 +42,12 @@ public class ArrayMetric implements Metric {
 
     @Override
     public long pass() {
-        return 0;
+        long pass = 0l;
+        List<MetricBucket> list = data.values();
+        for (MetricBucket bucket:list){
+            pass += bucket.pass();
+        }
+        return pass;
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.jd.poporder.node;
 
 import com.jd.poporder.core.MetricBucket;
+import com.jd.poporder.utils.TimeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -97,4 +100,47 @@ public abstract class LeapArray<T> {
      * @return
      */
     protected abstract WindowWrap<T> resetWindowTo(WindowWrap<T> windowWrap, long startTime);
+
+    /**
+     * 当前时间所在的窗口
+     * @return
+     */
+    public WindowWrap<MetricBucket> currentWindow(){
+        return currentWindow(TimeUtil.currentTimeMillis());
+    }
+
+    public List<MetricBucket> values(){
+        return values(TimeUtil.currentTimeMillis());
+    }
+
+    /**
+     * 收集数据
+     * @param timeMillis
+     * @return
+     */
+    private List<MetricBucket> values(long timeMillis){
+        if (timeMillis < 0){
+            return new ArrayList<>();
+        }
+        int size = array.length();
+        List<MetricBucket> list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++){
+            WindowWrap<MetricBucket> windowWrap = array.get(i);
+            if (windowWrap == null || isWindowDeprecated(timeMillis, windowWrap)){
+                continue;
+            }
+            list.add(windowWrap.value());
+        }
+        return list;
+    }
+
+    /**
+     * 判断当前窗口是否已经可以被废弃了
+     * @param timeInMs
+     * @param windowWrap
+     * @return
+     */
+    public boolean isWindowDeprecated(long timeInMs, WindowWrap windowWrap){
+        return timeInMs - windowWrap.windowStart() > intervalInMs;
+    }
 }

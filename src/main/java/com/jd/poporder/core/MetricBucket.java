@@ -31,6 +31,9 @@ public class MetricBucket {
         }
         return this;
     }
+    public long pass(){
+        return get(MetricEvent.PASS);
+    }
     public long get(MetricEvent event) {
         return counters[event.ordinal()].sum();
     }
