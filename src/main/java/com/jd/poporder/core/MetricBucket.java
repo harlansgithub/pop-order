@@ -31,10 +31,23 @@ public class MetricBucket {
         }
         return this;
     }
+    private long get(MetricEvent event) {
+        return counters[event.ordinal()].sum();
+    }
+
+    /**
+     * 请求通过的数量
+     * @return
+     */
     public long pass(){
         return get(MetricEvent.PASS);
     }
-    public long get(MetricEvent event) {
-        return counters[event.ordinal()].sum();
+
+    /**
+     * 熔断的数量
+     * @return
+     */
+    public long block(){
+        return get(MetricEvent.BLOCKED);
     }
 }

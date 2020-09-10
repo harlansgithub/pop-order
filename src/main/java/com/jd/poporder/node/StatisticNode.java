@@ -74,6 +74,7 @@ public class StatisticNode implements Node {
 
     @Override
     public void increaseBlockQps(int count) {
+
     }
 
     @Override
