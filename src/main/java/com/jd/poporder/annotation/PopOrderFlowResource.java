@@ -1,13 +1,12 @@
-package com.jd.poporder.annotation;
+package com.annotation;
 
 import com.jd.poporder.utils.EntryType;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;
 
-@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
+@Target(ElementType.METHOD)
 public @interface PopOrderFlowResource {
     String value() default "";
     EntryType entryType() default EntryType.OUT;
