@@ -17,8 +17,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @ComponentScan(basePackages = "com.jd.poporder")
 @EnableAspectJAutoProxy
 public class MainConfiguration {
-    @Bean
-    public TestAnnotation testAnnotation(){
-        return new TestAnnotation();
-    }
+//    @Bean
+//    public TestAnnotation testAnnotation(){
+//        return new TestAnnotation();
+//    }
 }

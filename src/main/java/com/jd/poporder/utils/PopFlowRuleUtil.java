@@ -1,6 +1,5 @@
 package com.jd.poporder.utils;
 
-import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.jd.poporder.constants.RuleConstant;
 import com.jd.poporder.controller.DefaultController;
 import com.jd.poporder.controller.TrafficShapingController;
