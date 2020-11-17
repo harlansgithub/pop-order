@@ -11,5 +11,7 @@ public class Test {
 //        System.out.println(MetricEvent.BLOCK.ordinal());
         System.out.println(MetricEvent.EXCEPTION.ordinal());
         AtomicLong[] atomicLongs = new AtomicLong[10];
+
+        System.out.println(TestSortEnum.SUCCESS.ordinal());
     }
 }
