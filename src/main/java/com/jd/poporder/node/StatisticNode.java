@@ -49,7 +49,7 @@ public class StatisticNode implements Node {
 
     @Override
     public double passQps() {
-        return 0;
+        return rollingCounterInSecond.pass() / rollingCounterInSecond.getWindowIntervalInSec();
     }
 
     @Override

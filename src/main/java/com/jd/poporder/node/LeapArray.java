@@ -143,4 +143,12 @@ public abstract class LeapArray<T> {
     public boolean isWindowDeprecated(long timeInMs, WindowWrap windowWrap){
         return timeInMs - windowWrap.windowStart() > intervalInMs;
     }
+
+    /**
+     * 获取统计时间窗口的总间隔
+     * @return
+     */
+    public double getIntervalInSecond(){
+        return intervalInMs / 1000.00;
+    }
 }

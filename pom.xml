@@ -63,7 +63,7 @@
         </dependency>
 
 
-        <!--        <dependency>-->
+<!--        <dependency>-->
 <!--            <groupId>com.alibaba.csp</groupId>-->
 <!--            <artifactId>sentinel-core</artifactId>-->
 <!--            <version>1.7.1</version>-->

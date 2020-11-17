@@ -15,7 +15,7 @@ public interface PopPropertyListener<T> {
     void configUpdate(T value);
 
     /**
-     * 程序启动是首次加载规则
+     * 程序启动时首次加载规则
      * @param value
      */
     void configLoad(T value);

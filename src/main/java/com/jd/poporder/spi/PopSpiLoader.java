@@ -16,6 +16,7 @@ public final class PopSpiLoader {
             if (serviceLoader == null){
                 ServiceLoader sServiceLoader = ServiceLoader.load(clazz, clazz.getClassLoader());
                 SERVICE_LOADER_MAP.put(className, sServiceLoader);
+                serviceLoader = sServiceLoader;
             }
             for (T instance:serviceLoader){
                 if (instance.getClass() != defaultClazz){

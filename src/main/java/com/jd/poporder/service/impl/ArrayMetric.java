@@ -73,4 +73,9 @@ public class ArrayMetric implements Metric {
     public void addPass() {
 
     }
+
+    @Override
+    public double getWindowIntervalInSec() {
+        return data.getIntervalInSecond();
+    }
 }
