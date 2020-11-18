@@ -143,4 +143,8 @@ public abstract class LeapArray<T> {
     public boolean isWindowDeprecated(long timeInMs, WindowWrap windowWrap){
         return timeInMs - windowWrap.windowStart() > intervalInMs;
     }
+
+    public double getIntervalInSecond() {
+        return intervalInMs / 1000.0;
+    }
 }

@@ -10,5 +10,7 @@ public interface Metric {
     void addBlock(int n);
     void addException();
     void addPass();
+    void addPass(int count);
+    double getWindowIntervalInSec();
 
 }

@@ -14,14 +14,14 @@ import java.lang.reflect.Method;
  */
 @Component
 public class TestAnnotation {
-    @PopOrderFlowResource("test_aspect")
+//    @PopOrderFlowResource("test_aspect")
     public String testAspect() {
 //        return "my aspect is test aspect";
         System.out.println(this.getClass().isAnnotationPresent(PopOrderFlowResource.class));
         return null;
     }
 
-    @PopOrderFlowResource
+//    @PopOrderFlowResource
     public String test1(){
         return "awefw";
     }

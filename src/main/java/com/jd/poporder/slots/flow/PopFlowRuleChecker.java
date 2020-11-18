@@ -34,9 +34,9 @@ public class PopFlowRuleChecker {
 
     private static boolean passLocalCheck(PopFlowRule rule, Context context, DefaultNode node, int acquireCount,
                                           boolean prioritized) {
-        if (node == null) {
-            return true;
-        }
+//        if (node == null) {
+//            return true;
+//        }
         return rule.getRater().canPass(context.getEntranceNode(), acquireCount, prioritized);
     }
 }

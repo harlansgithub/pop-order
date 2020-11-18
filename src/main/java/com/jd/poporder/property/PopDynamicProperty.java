@@ -1,10 +1,9 @@
 package com.jd.poporder.property;
 
 import com.jd.poporder.listener.PopPropertyListener;
+import com.jd.poporder.slots.rule.PopFlowRule;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @ClassName PopDynamicProperty
@@ -19,13 +18,19 @@ public class PopDynamicProperty<T> implements Property<T>{
     private T value = null;
 
     public PopDynamicProperty() {
+        List<PopFlowRule> value = new ArrayList<>();
+        PopFlowRule rule = new PopFlowRule("test");
+        rule.setCount(2);
+        value.add(rule);
+        this.value = (T) value;
     }
-    // TODO 为什么要加super()
     public PopDynamicProperty(T value) {
         super();
         this.value = value;
     }
-
+    public void setValue(T value){
+        this.value = value;
+    }
     @Override
     public void addListener(PopPropertyListener<T> listener) {
         listeners.add(listener);

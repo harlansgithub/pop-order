@@ -7,6 +7,7 @@ import com.jd.poporder.property.Property;
 import com.jd.poporder.slots.rule.PopFlowRule;
 import com.jd.poporder.utils.PopFlowRuleUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

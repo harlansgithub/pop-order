@@ -11,4 +11,8 @@ public class DefaultNode extends StatisticNode {
     public void increaseBlockQps(int count) {
         super.increaseBlockQps(count);
     }
+    @Override
+    public void addPassRequest(int count) {
+        super.addPassRequest(count);
+    }
 }

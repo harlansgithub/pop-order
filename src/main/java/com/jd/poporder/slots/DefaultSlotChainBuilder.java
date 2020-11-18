@@ -7,6 +7,7 @@ public class DefaultSlotChainBuilder implements SlotChainBuilder {
     @Override
     public ProcessorSlotChain build() {
         ProcessorSlotChain chain = new DefaultProcessorSlotChain();
+        chain.addLast(new PopStatisticSlot());
         chain.addLast(new PopFlowSlot());
         return chain;
     }

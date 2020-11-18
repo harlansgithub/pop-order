@@ -2,7 +2,9 @@ package com.jd.poporder.service.impl;
 
 import com.jd.poporder.core.MetricBucket;
 import com.jd.poporder.node.LeapArray;
+import com.jd.poporder.node.WindowWrap;
 import com.jd.poporder.service.Metric;
+import com.jd.poporder.slots.statistic.MetricEvent;
 
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class ArrayMetric implements Metric {
 
     @Override
     public long pass() {
+        data.currentWindow();
         long pass = 0l;
         List<MetricBucket> list = data.values();
         for (MetricBucket bucket:list){
@@ -72,5 +75,16 @@ public class ArrayMetric implements Metric {
     @Override
     public void addPass() {
 
+    }
+
+    @Override
+    public void addPass(int count) {
+        WindowWrap<MetricBucket> windowWrap = data.currentWindow();
+        windowWrap.value().add(MetricEvent.PASS, count);
+    }
+
+    @Override
+    public double getWindowIntervalInSec() {
+        return data.getIntervalInSecond();
     }
 }

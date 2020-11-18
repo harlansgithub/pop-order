@@ -35,4 +35,10 @@ public class Context {
     public DefaultNode getEntranceNode() {
         return entranceNode;
     }
+
+    public void setCurNode
+
+    public String getName() {
+        return name;
+    }
 }

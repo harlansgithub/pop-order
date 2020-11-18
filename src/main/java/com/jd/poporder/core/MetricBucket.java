@@ -31,6 +31,11 @@ public class MetricBucket {
         }
         return this;
     }
+
+    public MetricBucket add(MetricEvent metricEvent, long count){
+        counters[metricEvent.ordinal()].add(count);
+        return this;
+    }
     private long get(MetricEvent event) {
         return counters[event.ordinal()].sum();
     }
