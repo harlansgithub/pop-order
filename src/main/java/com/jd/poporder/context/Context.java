@@ -36,7 +36,6 @@ public class Context {
         return entranceNode;
     }
 
-    public void setCurNode
 
     public String getName() {
         return name;
