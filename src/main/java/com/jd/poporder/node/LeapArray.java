@@ -144,7 +144,11 @@ public abstract class LeapArray<T> {
         return timeInMs - windowWrap.windowStart() > intervalInMs;
     }
 
-    public double getIntervalInSecond() {
-        return intervalInMs / 1000.0;
+    /**
+     * 获取统计时间窗口的总间隔
+     * @return
+     */
+    public double getIntervalInSecond(){
+        return intervalInMs / 1000.00;
     }
 }
