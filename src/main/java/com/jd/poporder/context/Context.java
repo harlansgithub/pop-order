@@ -40,4 +40,12 @@ public class Context {
     public String getName() {
         return name;
     }
+
+    public Entry getCurEntry(){
+        return this.entry;
+    }
+
+    public void setCurEntry(Entry entry){
+        this.entry = entry;
+    }
 }
