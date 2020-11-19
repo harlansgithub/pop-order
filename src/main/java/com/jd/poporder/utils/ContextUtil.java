@@ -1,6 +1,8 @@
 package com.jd.poporder.utils;
 
+import com.jd.poporder.constants.Constans;
 import com.jd.poporder.constants.ConstantsTable;
+import com.jd.poporder.constants.ContextNameConstants;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.context.NullContext;
 import com.jd.poporder.core.StringResourceWrapper;
@@ -80,5 +82,27 @@ public class  ContextUtil {
             contextThreadLocal.set(context);
         }
         return context;
+    }
+
+    /**
+     * 当前线程退出上下文
+     */
+    public static void exit(){
+        Context context = contextThreadLocal.get();
+        // getCurEntry==null判断是为了保证Node已经从当前上下文中退出了
+        if (context != null && context.getCurEntry() == null ){
+            contextThreadLocal.set(null);
+        }
+    }
+    /**
+     * 判断是不是默认的Context
+     * @param context
+     * @return
+     */
+    public static boolean isDefaultContext(Context context){
+        if (context == null){
+            return false;
+        }
+        return ContextNameConstants.DEFAULT_CONTEXT_NAME.equals(context.getName());
     }
 }

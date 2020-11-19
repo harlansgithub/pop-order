@@ -24,6 +24,19 @@ public class CheckerEntry extends Entry {
         super(resourceWrapper);
         this.chain = chain;
         this.context = context;
+
+        setUpEntryFor(context);
+    }
+
+    private void setUpEntryFor(Context context) {
+        if (context instanceof NullContext){
+            return;
+        }
+        this.parent = context.getCurEntry();
+        if (parent != null){
+            ((CheckerEntry)parent).child = this;
+        }
+        context.setCurEntry(this);
     }
 
     @Override
@@ -64,10 +77,20 @@ public class CheckerEntry extends Entry {
                 ((CheckerEntry)parent).child = null;
             }
             if (parent == null){
-                if (ContextUtil)
+                if (ContextUtil.isDefaultContext(context)){
+                    ContextUtil.exit();
+                }
             }
+            // 清除上下文
+            clearEntryContext();
         }
+    }
 
+    /**
+     * 清除当前上下文，避免重复退出
+     */
+    protected void clearEntryContext() {
+        this.context = null;
     }
 
     public Entry getParent() {

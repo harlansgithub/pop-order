@@ -32,7 +32,8 @@ public class PopNodeSelectorSlot extends AbstractLinkedProcessorSlot<DefaultNode
                 }
             }
         }
-
+        context.setCurNode(node);
+        fireEntry(context, resourceWrapper, node, count, prioritized, args);
     }
 
     @Override

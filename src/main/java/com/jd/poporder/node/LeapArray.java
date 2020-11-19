@@ -68,8 +68,8 @@ public abstract class LeapArray<T> {
     }
 
     private int calculateTimeIdx(long timeInMillis) {
-        int count = (int) (timeInMillis / windowLengthInMs);
-        return count % sampleCount;
+        int timeId = (int) (timeInMillis / windowLengthInMs);
+        return (int) (timeId % array.length());
     }
 
     public MetricBucket getWindowValue(long timeMillis) {

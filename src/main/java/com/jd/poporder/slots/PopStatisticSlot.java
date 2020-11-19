@@ -15,16 +15,15 @@ public class PopStatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode>{
     @Override
     public void entry(Context context, ResourceWrapper resourceWrapper, DefaultNode node, int count,
                       boolean prioritized, Object... args) throws Throwable {
-//        try {
+        try {
             fireEntry(context, resourceWrapper, node, count, prioritized, args);
             // 验证通过
-//            node.increaseThreadNum();
-//            node.addPassRequest(count);
-//        } catch (Throwable throwable) {
-//            System.out.println("你被限流拉......");
-//        } finally {
-//        }
-
+            node.increaseThreadNum();
+            node.addPassRequest(count);
+        } catch (Throwable throwable) {
+            System.out.println("你被限流拉......");
+        } finally {
+        }
     }
 
     @Override

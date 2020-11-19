@@ -1,6 +1,5 @@
 package com.jd.poporder.slots;
 
-import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleChecker;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.core.ResourceWrapper;
 import com.jd.poporder.node.DefaultNode;

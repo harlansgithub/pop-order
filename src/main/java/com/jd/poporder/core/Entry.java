@@ -1,6 +1,7 @@
 package com.jd.poporder.core;
 
 import com.jd.poporder.context.Context;
+import com.jd.poporder.node.Node;
 import com.jd.poporder.service.ResourceNode;
 import com.jd.poporder.utils.TimeUtil;
 
@@ -18,7 +19,7 @@ public abstract class Entry implements AutoCloseable{
     // entry 创建时间
     private long createTime;
     // 当前校验的节点
-    private ResourceNode curNode;
+    private Node curNode;
     // 校验链的源头校验节点
     private ResourceNode originNode;
     private Throwable error;
@@ -65,4 +66,12 @@ public abstract class Entry implements AutoCloseable{
      * @throws Exception
      */
     protected abstract void exitForContext(Context context, int count, Object... args) throws Exception;
+
+    public Node getCurNode() {
+        return curNode;
+    }
+
+    public void setCurNode(Node curNode) {
+        this.curNode = curNode;
+    }
 }
