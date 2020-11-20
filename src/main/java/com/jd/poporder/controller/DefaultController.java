@@ -20,9 +20,9 @@ public class DefaultController implements TrafficShapingController{
     @Override
     public boolean canPass(Node node, int acquireCount, boolean prioritized) {
         int curCount = avgUsedTokens(node);
-        System.out.println("curCount    >>>>  "+curCount);
+        System.out.println("curCount : "+curCount + ", acquireCount : " + acquireCount + ", count : " + count);
         if (curCount + acquireCount > count) {
-            System.out.println("bloking....."+curCount);
+            System.out.println("限流了....."+curCount);
             return false;
         }else {
             System.out.println("通过了....");

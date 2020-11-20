@@ -36,39 +36,48 @@ public abstract class LeapArray<T> {
      * @return
      */
     public WindowWrap<MetricBucket> currentWindow(long timeInMillis){
+        if (timeInMillis < 0){
+            return null;
+        }
+
         // 计算在LeapArray中的位置
         int indexId = calculateTimeIdx(timeInMillis);
-
-        // 读取对应的时间Bucket
-        WindowWrap old = array.get(indexId);
 
         // 计算当前时间的Bucket的开始时间
         long windowStart = timeInMillis - timeInMillis % windowLengthInMs;
 
-        WindowWrap<MetricBucket> newWindow = new WindowWrap<MetricBucket>(windowLengthInMs,windowStart,new MetricBucket());
-        // 初始化或者数据被清空
-        if (old == null){
-            if (array.compareAndSet(indexId,null,newWindow)){
-                return newWindow;
-            }else {
-                Thread.yield();
+        while (true) {
+            // 读取对应的时间Bucket
+            WindowWrap old = array.get(indexId);
+            // 初始化或者数据被清空
+            if (old == null) {
+                WindowWrap<MetricBucket> newWindow = new WindowWrap<MetricBucket>(windowLengthInMs,windowStart,new MetricBucket());
+                if (array.compareAndSet(indexId, null, newWindow)) {
+                    return newWindow;
+                } else {
+                    // 竞争失败，当前的线程将会让出时间片等待计数桶可用
+                    Thread.yield();
+                }
+            } else if (windowStart == old.windowStart()) {
+                return old;
+            } else if (windowStart > old.windowStart()) { // 当前窗口数据失效，更新窗口开始时间
+                if (updatLock.tryLock()) {
+                    try {
+                        return resetWindowTo(old, windowStart);
+                    } finally {
+                        updatLock.unlock();
+                    }
+                } else {
+                    Thread.yield();
+                }
+            } else if (windowStart < old.windowStart()) {
+                return new WindowWrap<>(windowLengthInMs, windowStart, new MetricBucket());
             }
         }
-        // 当前窗口数据失效，更新窗口开始时间
-        if (windowStart > old.windowStart()){
-            if (updatLock.tryLock()){
-                WindowWrap<MetricBucket> windowWrap = new WindowWrap<>(windowLengthInMs, windowStart, new MetricBucket());
-                old = windowWrap;
-                return windowWrap;
-            }
-        }
-
-
-        return null;
     }
 
     private int calculateTimeIdx(long timeInMillis) {
-        int timeId = (int) (timeInMillis / windowLengthInMs);
+        long timeId = timeInMillis / windowLengthInMs;
         return (int) (timeId % array.length());
     }
 

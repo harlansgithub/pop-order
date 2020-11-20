@@ -29,6 +29,7 @@ public class PopNodeSelectorSlot extends AbstractLinkedProcessorSlot<DefaultNode
                     Map<String, DefaultNode> newMap = new HashMap<>(map.size() + 1);
                     newMap.putAll(map);
                     newMap.put(context.getName(), node);
+                    map = newMap;
                 }
             }
         }

@@ -13,7 +13,6 @@ public class FllowerLimiter {
     @PopOrderFlowResource("getOrderData")
     @RequestMapping("/orderdata")
     public String getOrderData(){
-        System.out.println(count.getAndIncrement());
         return "success";
     }
 }

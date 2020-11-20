@@ -30,7 +30,7 @@ public class  ContextUtil {
      * 2.这么做是为了达到不同的上下文数据隔离
      * 3.key:上下文的名称 value:统计数据节点
      */
-    private static volatile Map<String, DefaultNode> localCacheNode = new HashMap<>();
+    private static volatile Map<String, DefaultNode> contextNameNodeMap = new HashMap<>();
 
     // 同一个上下文对应多个线程，故这个里需要锁同步，保证同时只有一个线程创建相同的上下文
     private static final ReentrantLock LOCK = new ReentrantLock();
@@ -47,6 +47,7 @@ public class  ContextUtil {
     public static Context trurEnter(String contextName){
         Context context = contextThreadLocal.get();
         if (context == null){
+            Map<String, DefaultNode> localCacheNode = contextNameNodeMap;
             DefaultNode node = localCacheNode.get(contextName);
             if (node == null){
                 // 控制上下文的个数
@@ -67,10 +68,10 @@ public class  ContextUtil {
                                 // 创建Node
                                 node = new EntranceNode(new StringResourceWrapper(contextName,EntryType.IN));
                                 // 指针替换法修改缓存
-                                Map<String,DefaultNode> contextMap = new HashMap<>(localCacheNode.size()+1);
-                                contextMap.putAll(localCacheNode);
+                                Map<String,DefaultNode> contextMap = new HashMap<>(contextNameNodeMap.size()+1);
+                                contextMap.putAll(contextNameNodeMap);
                                 contextMap.put(contextName,node);
-                                localCacheNode = contextMap;
+                                contextNameNodeMap = contextMap;
                             }
                         }
                     } finally {

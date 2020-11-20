@@ -17,11 +17,12 @@ public class PopStatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode>{
                       boolean prioritized, Object... args) throws Throwable {
         try {
             fireEntry(context, resourceWrapper, node, count, prioritized, args);
-            // 验证通过
+            //            // 验证通过
             node.increaseThreadNum();
             node.addPassRequest(count);
+            System.out.println("node is: " + node);
         } catch (Throwable throwable) {
-            System.out.println("你被限流拉......");
+            System.out.println("error");
         } finally {
         }
     }

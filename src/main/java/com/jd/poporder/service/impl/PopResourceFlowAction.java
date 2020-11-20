@@ -14,6 +14,7 @@ import com.jd.poporder.service.PopResourceService;
 import com.jd.poporder.slots.ProcessorSlot;
 import com.jd.poporder.utils.ContextUtil;
 import com.jd.poporder.utils.EntryType;
+import sun.awt.windows.ThemeReader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,10 +52,11 @@ public class PopResourceFlowAction implements PopResourceService {
         if (context instanceof NullContext){
             return new CheckerEntry(resourceWrapper,null,context);
         }
-
+        System.out.println(Thread.currentThread().getId());
         if (context == null){
             context = InternalContextUtils.internalEnter(ContextNameConstants.DEFAULT_CONTEXT_NAME);
         }
+        System.out.println("context name is : " + context.getName());
         ProcessorSlot<Object> chain = lookProcessorChain(resourceWrapper);
         Entry e = new CheckerEntry(resourceWrapper, chain, context);
         chain.entry(context, resourceWrapper, null, count, false, objects);

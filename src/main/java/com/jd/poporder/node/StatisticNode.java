@@ -8,6 +8,7 @@ import com.jd.poporder.service.impl.ArrayMetric;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * 数据统计核心计算逻辑，使用滑动时间窗口计数
@@ -22,6 +23,12 @@ public class StatisticNode implements Node {
      * 一分钟计数,每秒一个时间窗口
      */
     private transient Metric rollingCounterInMinute = new ArrayMetric(60, 60 * 1000, false);
+
+    /**
+     * 当前请求的线程出（用来做线程数量维度的限流）
+     */
+    private LongAdder curThreadNum = new LongAdder();
+
     @Override
     public long totalRequest() {
         return rollingCounterInMinute.pass() + rollingCounterInMinute.block();
@@ -119,8 +126,12 @@ public class StatisticNode implements Node {
 
     @Override
     public void addPassRequest(int count) {
-        rollingCounterInSecond.addPass(count);
-        rollingCounterInMinute.addPass(count);
+        try {
+            rollingCounterInSecond.addPass(count);
+            rollingCounterInMinute.addPass(count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -133,14 +144,20 @@ public class StatisticNode implements Node {
 
     }
 
+    /**
+     * 增加线程数
+     */
     @Override
     public void increaseThreadNum() {
-
+        this.curThreadNum.increment();
     }
 
+    /**
+     * 线程退出时减少线程数量
+     */
     @Override
     public void decreaseThreadNum() {
-
+        this.curThreadNum.decrement();
     }
 
     @Override

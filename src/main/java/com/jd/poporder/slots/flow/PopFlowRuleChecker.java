@@ -64,6 +64,6 @@ public class PopFlowRuleChecker {
             // TODO liudianfei
 //            return true;
         }
-        return rule.getRater().canPass(context.getEntranceNode(), acquireCount, prioritized);
+        return rule.getRater().canPass(node, acquireCount, prioritized);
     }
 }
