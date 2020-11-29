@@ -36,8 +36,8 @@ public class PopFlowRuleManager {
         // TODO liudianfei3 这里手动设置一个限流策略，之后添加了cluster model之后，这里要变成动态更新限流规则的
         List<PopFlowRule> list = new ArrayList<>();
         PopFlowRule popFlowRule = new PopFlowRule();
-        popFlowRule.setCount(1);
-        popFlowRule.setRater(new DefaultController(1));
+        popFlowRule.setCount(100);
+        popFlowRule.setRater(new DefaultController(10));
         popFlowRule.setResource("getOrderData");
         list.add(popFlowRule);
         currentProperty = new PopDynamicProperty<>(list);

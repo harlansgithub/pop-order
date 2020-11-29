@@ -81,7 +81,6 @@ public class ArrayMetric implements Metric {
     public void addPass(int count) {
         try {
             WindowWrap<MetricBucket> windowWrap = data.currentWindow();
-            System.out.println("windowWrap.value is :" + windowWrap.value());
             windowWrap.value().add(MetricEvent.PASS, count);
         } catch (Exception e) {
             e.printStackTrace();

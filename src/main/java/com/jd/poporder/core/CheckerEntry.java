@@ -40,19 +40,19 @@ public class CheckerEntry extends Entry {
     }
 
     @Override
-    public void exit(int count, Object... args) throws Exception {
+    public void exit(int count, Object... args) throws RuntimeException {
         trueExit(count, args);
     }
 
     @Override
-    protected Entry trueExit(int count, Object... args) throws Exception {
+    protected Entry trueExit(int count, Object... args) throws RuntimeException {
         exitForContext(context, count, args);
         // 返回上一个校验节点，处理退出逻辑
         return parent;
     }
 
     @Override
-    protected void exitForContext(Context context, int count, Object... args) throws Exception {
+    protected void exitForContext(Context context, int count, Object... args) throws RuntimeException {
         if (context != null){
             if (context instanceof NullContext){
                 return;

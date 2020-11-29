@@ -4,6 +4,7 @@ import com.jd.poporder.annotation.PopOrderFlowResource;
 import com.jd.poporder.core.Entry;
 import com.jd.poporder.core.Environment;
 import com.jd.poporder.utils.EntryType;
+import kotlin.jvm.Throws;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -45,10 +46,11 @@ public class PopOrderFlowAspect extends AbstractPopOrderAnnotationAspect{
                 throwable.printStackTrace();
             } finally {
                 if (entry != null){
-
+                    entry.exit(1, pjp.getArgs());
                 }
             }
         }
         return null;
     }
+
 }

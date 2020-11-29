@@ -28,7 +28,8 @@ public class  ContextUtil {
     /**
      * 1.支持多个上下文统计数据隔离的情况，每个上线文名称对应一个独立的统计数据节点
      * 2.这么做是为了达到不同的上下文数据隔离
-     * 3.key:上下文的名称 value:统计数据节点
+     * 3.key:context name, value: node
+     * 4.关键属性
      */
     private static volatile Map<String, DefaultNode> contextNameNodeMap = new HashMap<>();
 

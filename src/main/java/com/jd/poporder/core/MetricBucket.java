@@ -34,7 +34,6 @@ public class MetricBucket {
 
     public MetricBucket add(MetricEvent metricEvent, long count){
         counters[metricEvent.ordinal()].add(count);
-        System.out.println("add pass count:" + counters[metricEvent.ordinal()]);
         return this;
     }
     private long get(MetricEvent event) {

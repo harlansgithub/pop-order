@@ -49,7 +49,7 @@ public abstract class Entry implements AutoCloseable{
      * @param args
      * @throws Exception
      */
-    public abstract void exit(int count, Object... args) throws Exception;
+    public abstract void exit(int count, Object... args) throws RuntimeException;
 
     /**
      * 对exit包了一层,使用protected修改，允许同一包或者子类实现，核心退出逻辑不允许修改
@@ -57,7 +57,7 @@ public abstract class Entry implements AutoCloseable{
      * @param args
      * @throws Exception
      */
-    protected abstract Entry trueExit(int count, Object... args) throws Exception;
+    protected abstract Entry trueExit(int count, Object... args) throws RuntimeException;
 
     /**
      * 从上下文中退出逻辑
@@ -65,7 +65,7 @@ public abstract class Entry implements AutoCloseable{
      * @param args
      * @throws Exception
      */
-    protected abstract void exitForContext(Context context, int count, Object... args) throws Exception;
+    protected abstract void exitForContext(Context context, int count, Object... args) throws RuntimeException;
 
     public Node getCurNode() {
         return curNode;

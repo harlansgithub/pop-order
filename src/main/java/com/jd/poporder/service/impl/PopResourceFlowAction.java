@@ -52,11 +52,9 @@ public class PopResourceFlowAction implements PopResourceService {
         if (context instanceof NullContext){
             return new CheckerEntry(resourceWrapper,null,context);
         }
-        System.out.println(Thread.currentThread().getId());
         if (context == null){
             context = InternalContextUtils.internalEnter(ContextNameConstants.DEFAULT_CONTEXT_NAME);
         }
-        System.out.println("context name is : " + context.getName());
         ProcessorSlot<Object> chain = lookProcessorChain(resourceWrapper);
         Entry e = new CheckerEntry(resourceWrapper, chain, context);
         chain.entry(context, resourceWrapper, null, count, false, objects);
