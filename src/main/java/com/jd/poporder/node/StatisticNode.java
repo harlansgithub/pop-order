@@ -22,7 +22,7 @@ public class StatisticNode implements Node {
     /**
      * 一分钟计数,每秒一个时间窗口
      */
-    private transient Metric rollingCounterInMinute = new ArrayMetric(60, 30000, false);
+    private transient Metric rollingCounterInMinute = new ArrayMetric(60, 60000, false);
 
     /**
      * 当前请求的线程出（用来做线程数量维度的限流）
