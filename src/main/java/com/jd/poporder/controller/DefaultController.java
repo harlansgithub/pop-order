@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @ClassName DefaultController
- * @Description DefaultController
+ * @Description 流量模型控制器
  * @Author liudianfei3
  * @Date 2020/9/4 12:26
  * @Version 1.0
@@ -26,11 +26,13 @@ public class DefaultController implements TrafficShapingController{
     @Override
     public boolean canPass(Node node, int acquireCount, boolean prioritized) {
         int curCount = avgUsedTokens(node);
+        System.out.println(count);
         if (curCount + acquireCount > count) {
             System.out.println("block count : " + blockCounter.incrementAndGet() + ",qps : "+curCount + ", acquireCount : " + acquireCount + ",  threshold : " + count);
             return false;
         }else {
             System.out.println("qps : " + curCount);
+            System.out.println("2 node is "+node.toString());
         }
         return true;
     }

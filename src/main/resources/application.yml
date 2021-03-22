@@ -2,7 +2,7 @@ server:
   port: 9091
   tomcat:
     threads:
-      max: 10000
+      max: 1000
 spring:
   profiles:
     active: cn

@@ -26,6 +26,7 @@ public class PopStatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode>{
             node.addPassRequest(count);
         } catch (LimitedException throwable) {
             System.out.println("throwCounter : " + throwCounter.incrementAndGet());
+            throw throwable;
         } finally {
         }
     }

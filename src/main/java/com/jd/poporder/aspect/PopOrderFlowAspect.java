@@ -24,7 +24,7 @@ public class PopOrderFlowAspect extends AbstractPopOrderAnnotationAspect{
     }
 
     @Around("popOrderFlowAnnotationPointcut()")
-    public Object invokeResourceWithPopOrder(ProceedingJoinPoint pjp) {
+    public Object invokeResourceWithPopOrder(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature methodSignature = (MethodSignature)pjp.getSignature();
         Method method = this.resolveMethod(pjp,methodSignature);
         if (method == null){
@@ -44,13 +44,13 @@ public class PopOrderFlowAspect extends AbstractPopOrderAnnotationAspect{
                 return pjp.proceed();
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
+                throw throwable;
             } finally {
                 if (entry != null){
                     entry.exit(1, pjp.getArgs());
                 }
             }
         }
-        return null;
     }
 
 }
