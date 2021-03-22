@@ -54,5 +54,8 @@ public class Context {
         this.curEntry.setCurNode(node);
         return this;
     }
+    public Node getCurNode(){
+        return this.curEntry.getCurNode();
+    }
 
 }

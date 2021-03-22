@@ -4,6 +4,7 @@ import com.jd.poporder.LimitedException.LimitedException;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.core.ResourceWrapper;
 import com.jd.poporder.node.DefaultNode;
+import sun.nio.ch.DefaultAsynchronousChannelProvider;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -33,6 +34,6 @@ public class PopStatisticSlot extends AbstractLinkedProcessorSlot<DefaultNode>{
 
     @Override
     public void exit(Context context, ResourceWrapper resourceWrapper, int count, Object... args) {
-
+        DefaultNode defaultNode = (DefaultNode) context.getCurNode();
     }
 }
