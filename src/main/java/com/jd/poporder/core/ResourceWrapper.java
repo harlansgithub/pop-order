@@ -36,4 +36,13 @@ public abstract class ResourceWrapper {
     public int hashCode() {
         return getName().hashCode();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ResourceWrapper) {
+            ResourceWrapper rw = (ResourceWrapper)obj;
+            return rw.getName().equals(getName());
+        }
+        return false;
+    }
 }

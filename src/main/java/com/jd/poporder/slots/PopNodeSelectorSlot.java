@@ -5,6 +5,8 @@ import com.jd.poporder.core.ResourceWrapper;
 import com.jd.poporder.node.DefaultNode;
 import com.jd.poporder.node.Node;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +31,12 @@ public class PopNodeSelectorSlot extends AbstractLinkedProcessorSlot<DefaultNode
                     Map<String, DefaultNode> newMap = new HashMap<>(map.size() + 1);
                     newMap.putAll(map);
                     newMap.put(context.getName(), node);
+                    map = newMap;
                 }
             }
         }
-
+        context.setCurNode(node);
+        fireEntry(context, resourceWrapper, node, count, prioritized, args);
     }
 
     @Override

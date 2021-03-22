@@ -1,2 +1,12 @@
 server:
   port: 9091
+  tomcat:
+    threads:
+      max: 10000
+spring:
+  profiles:
+    active: cn
+baic:
+  env: baic
+cn:
+  env: cn

@@ -1,16 +1,21 @@
 package com.jd.poporder.slots.flow;
 
+import com.jd.poporder.LimitedException.LimitedException;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.core.ResourceWrapper;
 import com.jd.poporder.localstatics.LocalStaticsManager;
 import com.jd.poporder.node.DefaultNode;
 import com.jd.poporder.slots.rule.PopFlowRule;
 import com.jd.poporder.utils.EntryType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 public class PopFlowRuleChecker {
+    private static Logger logger = LoggerFactory.getLogger(PopFlowRuleChecker.class);
     public void checkFlow(Function<String, Collection<PopFlowRule>> ruleProvider, ResourceWrapper resource, Context context, DefaultNode node, int count, boolean prioritized ) throws Exception {
         if (ruleProvider == null || resource == null) {
             return;
@@ -19,9 +24,8 @@ public class PopFlowRuleChecker {
         if (flowRules != null){
             for (PopFlowRule rule : flowRules) {
                 if (!canPassCheck(rule, context, node, count, prioritized)) {
-                    throw new Exception(rule.getLimitApp() + "rule not pass");
+                    throw new LimitedException("被限流了");
                 }else {
-                    // 统计数据更新
                 }
             }
         }
@@ -64,6 +68,6 @@ public class PopFlowRuleChecker {
             // TODO liudianfei
 //            return true;
         }
-        return rule.getRater().canPass(context.getEntranceNode(), acquireCount, prioritized);
+        return rule.getRater().canPass(node, acquireCount, prioritized);
     }
 }

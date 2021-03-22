@@ -2,13 +2,14 @@ package com.jd.poporder.context;
 
 import com.jd.poporder.core.Entry;
 import com.jd.poporder.node.DefaultNode;
+import com.jd.poporder.node.Node;
 
 /**
  * 数据统计上下文
  */
 public class Context {
     // 当前正在处理的校验的节点（校验链条）
-    private Entry entry;
+    private Entry curEntry;
     
     // context name
     private String name;
@@ -39,5 +40,18 @@ public class Context {
 
     public String getName() {
         return name;
+    }
+
+    public Entry getCurEntry(){
+        return this.curEntry;
+    }
+
+    public void setCurEntry(Entry entry){
+        this.curEntry = entry;
+    }
+
+    public Context setCurNode(Node node){
+        this.curEntry.setCurNode(node);
+        return this;
     }
 }

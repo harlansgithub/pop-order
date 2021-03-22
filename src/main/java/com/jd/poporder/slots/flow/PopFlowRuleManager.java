@@ -33,15 +33,16 @@ public class PopFlowRuleManager {
         return flowRules;
     }
     static {
+        // TODO liudianfei3 这里手动设置一个限流策略，之后添加了cluster model之后，这里要变成动态更新限流规则的
         List<PopFlowRule> list = new ArrayList<>();
         PopFlowRule popFlowRule = new PopFlowRule();
-        popFlowRule.setCount(1);
-        popFlowRule.setRater(new DefaultController(1));
+        popFlowRule.setCount(100);
+        popFlowRule.setRater(new DefaultController(10));
         popFlowRule.setResource("getOrderData");
         list.add(popFlowRule);
         currentProperty = new PopDynamicProperty<>(list);
         currentProperty.addListener(LISTENER);
-        // 先留个入口，方便之后接入集群模式，限流规则的同步
+        // TODO liudianfei3 先留个入口，方便之后接入集群模式，限流规则的同步,定时任务去cluster中拉取或者自动pull模式
         // SCHEDULER.scheduleAtFixedRate()
     }
 

@@ -55,4 +55,8 @@ public class MetricBucket {
     public long block(){
         return get(MetricEvent.BLOCKED);
     }
+
+    public void addPass(int n){
+        add(MetricEvent.PASS, n);
+    }
 }

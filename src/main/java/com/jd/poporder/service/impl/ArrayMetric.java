@@ -79,8 +79,12 @@ public class ArrayMetric implements Metric {
 
     @Override
     public void addPass(int count) {
-        WindowWrap<MetricBucket> windowWrap = data.currentWindow();
-        windowWrap.value().add(MetricEvent.PASS, count);
+        try {
+            WindowWrap<MetricBucket> windowWrap = data.currentWindow();
+            windowWrap.value().add(MetricEvent.PASS, count);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
