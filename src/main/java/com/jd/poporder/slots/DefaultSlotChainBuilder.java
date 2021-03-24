@@ -9,6 +9,7 @@ public class DefaultSlotChainBuilder implements SlotChainBuilder {
     public ProcessorSlotChain build() {
         ProcessorSlotChain chain = new DefaultProcessorSlotChain();
         chain.addLast(new PopNodeSelectorSlot());
+        chain.addLast(new PopClusterBuilderSlot());
         chain.addLast(new PopStatisticSlot());
         chain.addLast(new PopFlowSlot());
         return chain;
