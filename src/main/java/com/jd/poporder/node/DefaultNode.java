@@ -15,6 +15,7 @@ public class DefaultNode extends StatisticNode {
     @Override
     public void addPassRequest(int count) {
         super.addPassRequest(count);
+        this.clusterNode.addPassRequest(count);
     }
 
     public ResourceWrapper getId(){
