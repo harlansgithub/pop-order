@@ -1,5 +1,6 @@
 package com.jd.poporder.controller;
 
+import com.jd.poporder.node.ClusterNode;
 import com.jd.poporder.node.Node;
 
 import java.util.concurrent.ExecutorService;
@@ -32,7 +33,8 @@ public class DefaultController implements TrafficShapingController{
             return false;
         }else {
             System.out.println("qps : " + curCount);
-            System.out.println("2 node is "+node.toString());
+            ClusterNode clusterNode = (ClusterNode)node;
+            System.out.println("nodeName is "+node.toString() + clusterNode.getResourceName());
         }
         return true;
     }

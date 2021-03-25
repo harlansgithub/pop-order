@@ -17,4 +17,12 @@ public class FllowerLimiter {
     public String getOrderData(){
         return "success";
     }
+
+
+
+    @PopOrderFlowResource("getOrderData1")
+    @RequestMapping("/orderdata1")
+    public String getOrderData1(){
+        return "success";
+    }
 }
