@@ -27,14 +27,14 @@ public class DefaultController implements TrafficShapingController{
     @Override
     public boolean canPass(Node node, int acquireCount, boolean prioritized) {
         int curCount = avgUsedTokens(node);
-        System.out.println(count);
         if (curCount + acquireCount > count) {
-            System.out.println("block count : " + blockCounter.incrementAndGet() + ",qps : "+curCount + ", acquireCount : " + acquireCount + ",  threshold : " + count);
+            ClusterNode clusterNode = (ClusterNode)node;
+            System.out.println("nodeName: "+ clusterNode.getResourceName() + ",block count : " + blockCounter.incrementAndGet() + ",qps : "+curCount + ", acquireCount : " + acquireCount + ",  threshold : " + count);
             return false;
         }else {
-            System.out.println("qps : " + curCount);
-            ClusterNode clusterNode = (ClusterNode)node;
-            System.out.println("nodeName is "+node.toString() + clusterNode.getResourceName());
+//            System.out.println("qps : " + curCount);
+//            ClusterNode clusterNode = (ClusterNode)node;
+//            System.out.println("nodeName is "+node.toString() + clusterNode.getResourceName());
         }
         return true;
     }
