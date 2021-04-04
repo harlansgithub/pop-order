@@ -2,8 +2,10 @@ package com.jd.poporder.slots;
 
 import com.jd.poporder.context.Context;
 import com.jd.poporder.core.ResourceWrapper;
+import com.jd.poporder.core.StringResourceWrapper;
 import com.jd.poporder.node.ClusterNode;
 import com.jd.poporder.node.DefaultNode;
+import com.jd.poporder.utils.EntryType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,5 +40,9 @@ public class PopClusterBuilderSlot extends AbstractLinkedProcessorSlot<DefaultNo
     @Override
     public void exit(Context context, ResourceWrapper resourceWrapper, int count, Object... args) {
 
+    }
+
+    public static ClusterNode getClusterNodeByResourceName(String resourceName){
+        return map.get(new StringResourceWrapper(resourceName, EntryType.IN,0));
     }
 }

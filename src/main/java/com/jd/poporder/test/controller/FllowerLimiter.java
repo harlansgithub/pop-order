@@ -1,19 +1,46 @@
 package com.jd.poporder.test.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.jd.poporder.analysis.AnalysisUnit;
+import com.jd.poporder.analysis.Common;
+import com.jd.poporder.analysis.Data;
+import com.jd.poporder.analysis.Type;
 import com.jd.poporder.annotation.PopOrderFlowResource;
+import com.jd.poporder.constants.ContextNameConstants;
+import com.jd.poporder.node.ClusterNode;
 import com.jd.poporder.node.DefaultNode;
+import com.jd.poporder.slots.PopClusterBuilderSlot;
 import com.jd.poporder.utils.ContextUtil;
+import com.jd.poporder.utils.StatisticAnalysisNode;
+import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api")
 public class FllowerLimiter {
+    private static ThreadLocal<SimpleDateFormat> simpleDateFormatThreadLocal = new ThreadLocal<>();
+    private static ArrayBlockingQueue<String> statisticAnalysisQueue = new ArrayBlockingQueue<>(10000);
+    private static ArrayBlockingQueue<String> timeQueue = new ArrayBlockingQueue<>(10000);
+
+    private static StatisticAnalysisNode statisticAnalysisNode = new StatisticAnalysisNode();
+    static {
+        List<Type> list = new ArrayList<>();
+        Type type = new Type();
+        type.setKey("synEsService");
+        type.setText("同步ES服务");
+        list.add(type);
+        statisticAnalysisNode.setType(list);
+    }
     private AtomicInteger count = new AtomicInteger();
     @PopOrderFlowResource("getOrderData")
     @RequestMapping("/orderdata")
@@ -31,16 +58,61 @@ public class FllowerLimiter {
 
     @CrossOrigin(origins = "*",maxAge = 3600)
     @RequestMapping("/trend")
+    public String getOrderData1Qps() throws InterruptedException {
+        PopClusterBuilderSlot popClusterBuilderSlot = new PopClusterBuilderSlot();
+        ClusterNode clusterNode = PopClusterBuilderSlot.getClusterNodeByResourceName("getOrderData1");
+        double v = clusterNode.passQps();
+        if (statisticAnalysisQueue.size() > 30) {
+            statisticAnalysisQueue.poll();
+        }
+        statisticAnalysisQueue.offer(String.valueOf(v));
+        SimpleDateFormat simpleDateFormat = simpleDateFormatThreadLocal.get();
+        if (simpleDateFormat == null){
+            simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            simpleDateFormatThreadLocal.set(simpleDateFormat);
+        }
+        String time = simpleDateFormat.format(new Date());
+        if (timeQueue.size() > 30) {
+            timeQueue.poll();
+        }
+        timeQueue.offer(time);
+
+        StatisticAnalysisNode statisticAnalysisNode = new StatisticAnalysisNode();
+
+        Data data = new Data();
+        data.setName("主表同步ES");
+        data.setData(statisticAnalysisQueue.toArray(new String[10]));
+        List<Data> listData = new ArrayList<>();
+        listData.add(data);
+        AnalysisUnit analysisUnit = new AnalysisUnit();
+        analysisUnit.setTitle("同步ES服务");
+        analysisUnit.setData(listData);
+        statisticAnalysisNode.setSynEsService(analysisUnit);
+
+        Common common = new Common();
+        common.setTime(timeQueue.toArray(new String[10]));
+        statisticAnalysisNode.setCommon(common);
+
+        List<Type> listType = new ArrayList<>();
+        Type type = new Type();
+        type.setKey("synEsService");
+        type.setText("同步ES服务");
+        listType.add(type);
+        statisticAnalysisNode.setType(listType);
+        String result = JSON.toJSONString(statisticAnalysisNode);
+        return result;
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @RequestMapping("/trend1")
     public String getQps(){
-        System.out.println("1223");
+        DefaultNode node = (DefaultNode) ContextUtil.getNodeByContextName(ContextNameConstants.DEFAULT_CONTEXT_NAME);
         Random random = new Random();
         int value = random.nextInt(1000);
         int value2 = random.nextInt(500);
         return "{\n" +
                 "    \"map\": {\n" +
                 "        \"title\": \"地区销量趋势\",\n" +
-                "        \"base\": 310,\n" +
-                "        \"unit\": \"万\",\n" +
                 "        \"data\": [\n" +
                 "            {\n" +
                 "                \"name\": \"上海\",\n" +
@@ -131,8 +203,6 @@ public class FllowerLimiter {
                 "    },\n" +
                 "    \"seller\": {\n" +
                 "        \"title\": \"商家销量趋势\",\n" +
-                "        \"base\": 120,\n" +
-                "        \"unit\": \"万\",\n" +
                 "        \"data\": [\n" +
                 "            {\n" +
                 "                \"name\": \"商家1\",\n" +
@@ -223,8 +293,6 @@ public class FllowerLimiter {
                 "    },\n" +
                 "    \"commodity\": {\n" +
                 "        \"title\": \"商品销量趋势\",\n" +
-                "        \"base\": 50,\n" +
-                "        \"unit\": \"万\",\n" +
                 "        \"data\": [\n" +
                 "            {\n" +
                 "                \"name\": \"女装\",\n" +
@@ -314,19 +382,19 @@ public class FllowerLimiter {
                 "        ]\n" +
                 "    },\n" +
                 "    \"common\": {\n" +
-                "        \"month\": [\n" +
-                "            \"一月\",\n" +
-                "            \"二月\",\n" +
-                "            \"三月\",\n" +
-                "            \"四月\",\n" +
-                "            \"五月\",\n" +
-                "            \"六月\",\n" +
-                "            \"七月\",\n" +
-                "            \"八月\",\n" +
-                "            \"九月\",\n" +
-                "            \"十月\",\n" +
-                "            \"十一月\",\n" +
-                "            \"十二月\"\n" +
+                "        \"time\": [\n" +
+                "            \"2021/4/4 17:46:00\",\n" +
+                "            \"2021/4/4 17:46:10\",\n" +
+                "            \"2021/4/4 17:46:20\",\n" +
+                "            \"2021/4/4 17:46:30\",\n" +
+                "            \"2021/4/4 17:46:40\",\n" +
+                "            \"2021/4/4 17:46:50\",\n" +
+                "            \"2021/4/4 17:47:00\",\n" +
+                "            \"2021/4/4 17:47:10\",\n" +
+                "            \"2021/4/4 17:47:20\",\n" +
+                "            \"2021/4/4 17:47:30\",\n" +
+                "            \"2021/4/4 17:47:40\",\n" +
+                "            \"2021/4/4 17:47:50\"\n" +
                 "        ]\n" +
                 "    },\n" +
                 "    \"type\": [\n" +
@@ -345,6 +413,4 @@ public class FllowerLimiter {
                 "    ]\n" +
                 "}";
     }
-
-
 }

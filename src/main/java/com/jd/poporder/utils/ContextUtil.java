@@ -6,6 +6,7 @@ import com.jd.poporder.constants.ContextNameConstants;
 import com.jd.poporder.context.Context;
 import com.jd.poporder.context.NullContext;
 import com.jd.poporder.core.StringResourceWrapper;
+import com.jd.poporder.node.ClusterNode;
 import com.jd.poporder.node.DefaultNode;
 import com.jd.poporder.node.EntranceNode;
 import com.jd.poporder.node.Node;
@@ -106,5 +107,9 @@ public class  ContextUtil {
             return false;
         }
         return ContextNameConstants.DEFAULT_CONTEXT_NAME.equals(context.getName());
+    }
+
+    public static Node getNodeByContextName(String contextName){
+        return contextNameNodeMap.get(contextName);
     }
 }
